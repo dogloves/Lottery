@@ -193,7 +193,7 @@ export default {
     },
     //把中奖人员保存
     saveLotters(){
-      for(let i = 0; i<this.lotteryIngList.length;i++){
+      for(let i = 0; i < this.lotteryIngList.length;i++){
          this.lotteryList.push(this.lotteryIngList[i])
       }
     },
@@ -209,11 +209,13 @@ export default {
        this.showLottteryList.length = 0;
       let n = this.lotteryNumber - this.lotteryList.length;
       this.showLottteryList = this.lotteryList.concat(this.getSeatList(n))
+      //console.log(this.showLottteryList)
     },
     //随机变化中奖人显示
     changeLotteryShow(){
      this.LotteryTimer = setInterval(()=>{
        this.lotteryIngList = this.getRandomList(this.everyMember);
+
       }, 100)
     },
 
@@ -229,13 +231,16 @@ export default {
     addMomber(){
       if(this.everyMember < this.allMember){
         this.everyMember = this.everyMember + 1;
+        this.lotteryIngList = this.getSeatList(this.everyMember)
       }
     },
     //减少单次中奖人数
     minMomber(){
       if(this.everyMember > 0){
         this.everyMember = this.everyMember - 1;
+        this.lotteryIngList = this.getSeatList(this.everyMember)
       }
+
     },
     //确定本轮参与人数
     getPartyArr(){
@@ -253,11 +258,10 @@ export default {
     getRandomList(n){
       let resultArr = []; //用来保存结果
       let partyArr = this.getPartyArr(); //参与本轮抽奖人的数组
-      let RadomArrList = this.getRandomNumber(0,partyArr.length,n); //随机数组
+      let RadomArrList = this.getRandomNumber(0,partyArr.length-1,n); //随机数组
+      this.lotteryIngList.length = 0;
       for(let i = 0;i < RadomArrList.length; i++){
-        if(i == 0){
-          this.lotteryIngList.length = 0;
-        }
+        console.log(RadomArrList[i])
         resultArr.push(this.wxUserList[RadomArrList[i]]);
       }
       return resultArr;
